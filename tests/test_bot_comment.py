@@ -289,7 +289,7 @@ class TestBotGet(TestBot):
 
         assert self.bot.has_comments(media_id) == expected
 
-    '''@responses.activate
+    @responses.activate
     @pytest.mark.parametrize(
         "blocked_actions_protection,blocked_actions",
         [(True, False), (False, False)]
@@ -358,7 +358,8 @@ class TestBotGet(TestBot):
         )
 
         # get media infos
-        TEST_PHOTO_ITEM["like_count"] = 80
+        photo_item = TEST_PHOTO_ITEM.copy()
+        photo_item["like_count"] = 80
         responses.add(
             responses.GET,
             "{api_url}media/{media_id}/info/".format(
@@ -369,7 +370,7 @@ class TestBotGet(TestBot):
                 "num_results": 1,
                 "status": "ok",
                 "more_available": False,
-                "items": [TEST_PHOTO_ITEM],
+                "items": [photo_item],
             },
             status=200,
         )
@@ -383,7 +384,7 @@ class TestBotGet(TestBot):
                 "num_results": 1,
                 "status": "ok",
                 "more_available": False,
-                "items": [TEST_PHOTO_ITEM],
+                "items": [photo_item],
             },
             status=200,
         )
@@ -399,8 +400,8 @@ class TestBotGet(TestBot):
             status=200,
         )
 
-        #print(self.bot.comment_medias(media_ids))
+        print(self.bot.max_per_day["comments"])
         if self.bot.max_per_day["comments"] > 0:
             assert self.bot.comment_medias(media_ids) == []
         else:
-            assert self.bot.comment_medias(media_ids) == media_ids'''
+            assert self.bot.comment_medias(media_ids) == media_ids
