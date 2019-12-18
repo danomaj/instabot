@@ -49,7 +49,7 @@ def comment(self, media_id, comment_text):
 
 
 def reply_to_comment(self, media_id, comment_text, parent_comment_id):
-    if not self.is_commented(media_id):
+    if not self.has_comments(media_id):
         self.logger.info("Media is not commented yet, nothing to answer to...")
         return False
     if not self.reached_limit("comments"):
@@ -150,4 +150,10 @@ def comment_geotag(self, geotag):
 
 
 def is_commented(self, media_id):
-    return self.user_id in self.get_media_commenters(media_id)
+    return str(self.user_id) in self.get_media_commenters(media_id)
+
+
+def has_comments(self, media_id):
+    if self.get_media_commenters(media_id):
+        return True
+    return False

@@ -20,6 +20,7 @@ from .bot_comment import (
     comment_user,
     comment_users,
     is_commented,
+    has_comments,
     reply_to_comment,
 )
 from .bot_delete import delete_comment, delete_media, delete_medias
@@ -963,6 +964,9 @@ class Bot(object):
 
     def is_commented(self, media_id):
         return is_commented(self, media_id)
+
+    def has_comments(self, media_id):
+        return has_comments(self, media_id)
 
     # block
     def block(self, user_id):

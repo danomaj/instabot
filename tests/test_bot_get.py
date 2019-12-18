@@ -1209,3 +1209,23 @@ class TestBotGet(TestBot):
         )
         inbox = self.bot.get_messages()
         assert inbox == response_data
+
+    @pytest.mark.parametrize(
+        "media_id,expected", [
+            (123456789, "https://instagram.com/p/HW80V/"),
+            (0, "https://instagram.com/p//"),
+            (666, "https://instagram.com/p/Ka/")
+        ]
+    )
+    def test_get_link_from_media_id(self, media_id, expected):
+        assert self.bot.get_link_from_media_id(media_id) == expected
+
+    @pytest.mark.parametrize(
+        "link,expected", [
+            ("https://instagram.com/p/HW80V/", 123456789, ),
+            ("https://instagram.com/p//", 0),
+            ("https://instagram.com/p/Ka/", 666)
+        ]
+    )
+    def test_media_id_from_link(self, link, expected):
+        assert self.bot.get_media_id_from_link(link) == expected
